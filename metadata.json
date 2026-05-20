@@ -1,0 +1,6 @@
+{
+  "name": "Competencia Sana en Pareja",
+  "description": "Una aplicación gamificada para motivar hábitos saludables y dinámicas de pareja mediante un sistema interactivo de puntos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

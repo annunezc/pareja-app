@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Global Safety Net - Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Pair Room Synchronization Rules
+    match /couples/{coupleId} {
+      // Validate the room code ID to avoid ID poisoning, resource exhaustion, and path traversal
+      allow read, write: if coupleId is string 
+        && coupleId.size() <= 64 
+        && coupleId.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+  }
+}

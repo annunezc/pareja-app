@@ -1,0 +1,135 @@
+{
+  "entities": {
+    "PartnerState": {
+      "title": "PartnerState",
+      "description": "Estado del participante (hábitos de agua, gastos, ejercicio, lectura y citas)",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": ["partnerA", "partnerB"]
+        },
+        "name": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "water": {
+          "type": "object"
+        },
+        "gastoHormiga": {
+          "type": "object"
+        },
+        "ejercicio": {
+          "type": "array"
+        },
+        "estudio": {
+          "type": "array"
+        },
+        "lecturaPaginas": {
+          "type": "integer"
+        },
+        "citas": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "avatar",
+        "color",
+        "water",
+        "gastoHormiga",
+        "ejercicio",
+        "estudio",
+        "lecturaPaginas",
+        "citas"
+      ]
+    },
+    "ActivityNotification": {
+      "title": "ActivityNotification",
+      "description": "Notificación de actividad o logro realizado",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "partnerId": {
+          "type": "string",
+          "enum": ["partnerA", "partnerB"]
+        },
+        "partnerName": {
+          "type": "string"
+        },
+        "partnerAvatar": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["water", "gasto_ok", "gasto_fail", "ejercicio", "estudio", "lectura", "cita", "on_fire"]
+        },
+        "message": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "partnerId",
+        "partnerName",
+        "partnerAvatar",
+        "type",
+        "message",
+        "timestamp"
+      ]
+    },
+    "CoupleSyncData": {
+      "title": "CoupleSyncData",
+      "description": "Datos sincronizados entre el celular de Andrés y el de Carla",
+      "type": "object",
+      "properties": {
+        "partnerA": {
+          "$ref": "#/entities/PartnerState"
+        },
+        "partnerB": {
+          "$ref": "#/entities/PartnerState"
+        },
+        "notifications": {
+          "type": "array"
+        },
+        "isGameClosed": {
+          "type": "boolean"
+        },
+        "lastUpdatedBy": {
+          "type": "string"
+        },
+        "lastUpdatedAt": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "partnerA",
+        "partnerB",
+        "notifications",
+        "isGameClosed",
+        "lastUpdatedBy",
+        "lastUpdatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/couples/{coupleId}": {
+      "schema": "#/entities/CoupleSyncData",
+      "description": "Estado sincronizado de la pareja Andrés y Carla"
+    }
+  }
+}
