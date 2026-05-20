@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competencia Sana en Pareja</title>
+    <style>
+        /* Un diseño bonito, limpio y moderno */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        h1 { color: #333; font-size: 24px; margin-bottom: 20px; }
+        input[type="text"] {
+            width: 90%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus { border-color: #4a90e2; }
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 95%;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #357abd; }
+        #respuesta {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 5px solid #4a90e2;
+            border-radius: 4px;
+            text-align: left;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #444;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Competencia Sana en Pareja 💑</h1>
+    <p style="color: #666; font-size: 14px;">Escribe tu duda o situación y la IA te responderá.</p>
+    
+    <input type="text" id="pregunta" placeholder="Ej: ¿Cómo definir metas juntos sin discutir?">
+    <button onclick="preguntarA_IA()">Enviar a la IA</button>
+    
+    <div id="respuesta" style="display: none;"></div>
+</div>
+
+<script type="importmap">
+  {
+    "imports": {
+      "@google/genai": "https://esm.run/@google/genai"
+    }
+  }
+</script>
+
+<script type="module">
+    import { GoogleGenAI } from '@google/genai';
+
+    // ⚠️ PON TU CLAVE AQUÍ ABAJO: Reemplaza las letras de ejemplo por tu API KEY real de AI Studio
+    const MI_API_KEY = "TU_API_KEY_DE_AI_STUDIO_AQUI";
+
+    window.preguntarA_IA = async function() {
+        const inputTexto = document.getElementById('pregunta').value;
+        const cajaRespuesta = document.getElementById('respuesta');
+        
+        if (!inputTexto.trim()) {
+            alert("Por favor, escribe algo primero.");
+            return;
+        }
+
+        cajaRespuesta.style.display = "block";
+        cajaRespuesta.innerText = "Pensando una respuesta para ustedes... 🧠✨";
+
+        try {
+            // Conectamos con el cerebro de Google Gemini
+            const ai = new GoogleGenAI({ apiKey: AIzaSyCMk5L_P7xTaJ2FQdHvzAAJ4CfDdUxRpS8});
+            
+            const response = await ai.models.generateContent({
+                model: 'gemini-2.5-flash',
+                contents: inputTexto
+            });
+
+            // Mostramos el resultado en la pantalla
+            cajaRespuesta.innerText = response.text;
+
+        } catch (error) {
+            console.error(error);
+            cajaRespuesta.innerText = "Lo siento, hubo un error al conectar con la IA. Revisa que tu clave (API Key) sea la correcta.";
+        }
+    }
+</script>
+
+</body>
+</html>
